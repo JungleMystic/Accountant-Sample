@@ -1,5 +1,6 @@
 package com.lrm.accountant.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -16,6 +17,7 @@ class AccountsListAdapter(
 
     inner class AccountViewHolder(private val binding: ListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        @SuppressLint("NotifyDataSetChanged")
         fun bind(account: Account, itemPosition: Int) {
             binding.accountId.text = account.actId.toString()
             binding.accountName.text = account.actName

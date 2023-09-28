@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 
 class AccountsViewModel : ViewModel() {
 
-    private val _accountsDataList = MutableLiveData<MutableList<Account>>()
+    private val _accountsDataList = MutableLiveData<MutableList<Account>>(mutableListOf())
     val accountsDataList: LiveData<MutableList<Account>> get() = _accountsDataList
 
     init {
@@ -23,7 +23,7 @@ class AccountsViewModel : ViewModel() {
     }
 
     // To retrieve data from the Web Api
-    private fun getData() {
+    fun getData() {
         try {
             viewModelScope.launch(Dispatchers.IO) {
                 Log.i(TAG, "getData: current thread -> ${Thread.currentThread().name}")
@@ -41,6 +41,6 @@ class AccountsViewModel : ViewModel() {
     }
 
     fun removeAccount(position: Int) {
-        _accountsDataList.value?.removeAt(position)
+        _accountsDataList.postValue(_accountsDataList.value.apply { this?.removeAt(position) })
     }
 }

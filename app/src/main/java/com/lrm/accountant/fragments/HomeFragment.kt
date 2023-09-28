@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -19,6 +21,9 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val accountsViewModel: AccountsViewModel by activityViewModels()
+    private val rotateAnim: Animation by lazy {
+        AnimationUtils.loadAnimation(requireContext(), R.anim.rotate_anim)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,12 +42,29 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            accountsViewModel.getData()
+            binding.swipeRefreshLayout.isRefreshing = false
+        }
+
         val adapter = AccountsListAdapter(accountsViewModel) {
             Toast.makeText(requireContext(), "Item clicked", Toast.LENGTH_SHORT).show()
         }
         binding.recyclerView.adapter = adapter
         accountsViewModel.accountsDataList.observe(viewLifecycleOwner) {list ->
-            list.let { adapter.submitList(it) }
+            if (list.isEmpty()) {
+                binding.noRecordsTv.visibility = View.VISIBLE
+                binding.recyclerView.visibility = View.INVISIBLE
+            } else {
+                binding.noRecordsTv.visibility = View.INVISIBLE
+                binding.recyclerView.visibility = View.VISIBLE
+                list.let { adapter.submitList(it) }
+            }
+        }
+
+        binding.refreshButton.setOnClickListener {
+            accountsViewModel.getData()
+            binding.refreshButton.startAnimation(rotateAnim)
         }
     }
 
