@@ -13,10 +13,10 @@ import com.lrm.accountant.network.AccountApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AccountsViewModel: ViewModel() {
+class AccountsViewModel : ViewModel() {
 
-    private val _accountsDataList = MutableLiveData<List<Account>>()
-    val accountsDataList: LiveData<List<Account>> get() = _accountsDataList
+    private val _accountsDataList = MutableLiveData<MutableList<Account>>()
+    val accountsDataList: LiveData<MutableList<Account>> get() = _accountsDataList
 
     init {
         getData()
@@ -24,19 +24,23 @@ class AccountsViewModel: ViewModel() {
 
     // To retrieve data from the Web Api
     private fun getData() {
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
+        try {
+            viewModelScope.launch(Dispatchers.IO) {
                 Log.i(TAG, "getData: current thread -> ${Thread.currentThread().name}")
                 val data = AccountApi.retrofitService.getData()
                 if (data != "") {
-                    val listType = object: TypeToken<List<Account>>() {}.type
-                    val dataList: List<Account> = Gson().fromJson(data, listType)
+                    val listType = object : TypeToken<List<Account>>() {}.type
+                    val dataList: MutableList<Account> = Gson().fromJson(data, listType)
                     _accountsDataList.postValue(dataList)
                 }
-            } catch (e: Exception) {
-                _accountsDataList.value = listOf()
-                Log.i(TAG, "getData: Exception -> ${e.printStackTrace()}")
             }
+        } catch (e: Exception) {
+            _accountsDataList.value = mutableListOf()
+            Log.i(TAG, "getData: Exception -> ${e.printStackTrace()}")
         }
+    }
+
+    fun removeAccount(position: Int) {
+        _accountsDataList.value?.removeAt(position)
     }
 }
