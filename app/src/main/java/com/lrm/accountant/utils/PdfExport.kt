@@ -25,6 +25,9 @@ class PdfExport {
     private val titleFont = Font(Font.FontFamily.TIMES_ROMAN, 16f, Font.BOLD)
     private lateinit var pdf: PdfWriter
 
+    val sdf = SimpleDateFormat("dd-MM-yyy hh-mm a", Locale.getDefault())
+    var date = Date()
+
     private fun createDirectory() {
         Log.i(TAG, "createDirectory is called")
         val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), APP_FOLDER_NAME)
@@ -39,11 +42,9 @@ class PdfExport {
     private fun createFile(): File {
         createDirectory()
         //Prepare file
-        val sdf = SimpleDateFormat("dd-MM-yyy hh-mm a", Locale.getDefault())
-        val date = Date()
-        val title = "Account details ${sdf.format(date)}.pdf"
+        val fileName = "Account data ${sdf.format(date)}.pdf"
         val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/$APP_FOLDER_NAME"
-        val file = File(path, title)
+        val file = File(path, fileName)
         if (!file.exists()) file.createNewFile()
         return file
     }
@@ -100,7 +101,7 @@ class PdfExport {
         setupPdfWriter(document, file)
 
         //Add table title
-        document.add(Paragraph("Account Details", titleFont))
+        document.add(Paragraph("Accounts Data", titleFont))
         document.add(Paragraph(" "))
 
         //Define Table
@@ -132,6 +133,8 @@ class PdfExport {
             table.addCell(amountCell)
         }
         document.add(table)
+        document.add(Paragraph(" "))
+        document.add(Paragraph("Created on ${sdf.format(date)}"))
         document.close()
 
         try {

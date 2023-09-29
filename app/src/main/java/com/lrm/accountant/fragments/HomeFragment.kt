@@ -20,6 +20,7 @@ import com.lrm.accountant.adapter.AccountsListAdapter
 import com.lrm.accountant.constants.TAG
 import com.lrm.accountant.constants.WRITE_EXTERNAL_STORAGE_PERMISSION_CODE
 import com.lrm.accountant.databinding.FragmentHomeBinding
+import com.lrm.accountant.utils.PdfConverter
 import com.lrm.accountant.utils.PdfExport
 import com.lrm.accountant.viewmodel.AccountsViewModel
 import com.vmadalin.easypermissions.EasyPermissions
@@ -70,11 +71,13 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 binding.recyclerView.visibility = View.INVISIBLE
                 binding.totalAmount.visibility = View.INVISIBLE
                 binding.exportPdf.visibility = View.INVISIBLE
+                binding.exportPdfV2.visibility = View.INVISIBLE
             } else {
                 binding.noRecordsTv.visibility = View.INVISIBLE
                 binding.recyclerView.visibility = View.VISIBLE
                 binding.totalAmount.visibility = View.VISIBLE
                 binding.exportPdf.visibility = View.VISIBLE
+                binding.exportPdfV2.visibility = View.VISIBLE
                 var amount = 0.0
                 list.forEach { amount += it.amount }
                 binding.totalAmount.text = HtmlCompat
@@ -94,6 +97,22 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 exportAsPdf()
             } else requestWriteExternalStoragePermission()
         }
+
+        binding.exportPdfV2.setOnClickListener {
+            if (hasWriteExternalStoragePermission()) {
+                exportAsPdfV2()
+            } else requestWriteExternalStoragePermission()
+        }
+
+        binding.scanFab.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToScanDocFragment()
+            this.findNavController().navigate(action)
+        }
+    }
+
+    private fun exportAsPdfV2() {
+        val pdfConverter = PdfConverter()
+        pdfConverter.createPdf(requireActivity(), requireContext(), accountsViewModel.accountsDataList.value!!)
     }
 
     private fun exportAsPdf() {

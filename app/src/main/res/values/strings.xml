@@ -19,6 +19,7 @@
     <string name="actmaintype">actmaintype</string>
     <string name="actunder">actunder</string>
     <string name="export_as_pdf">Export as pdf</string>
+    <string name="export_as_pdf_v2">Export pdf 2.0</string>
 
 
 </resources>
