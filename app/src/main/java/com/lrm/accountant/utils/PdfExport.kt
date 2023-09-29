@@ -42,7 +42,7 @@ class PdfExport {
     private fun createFile(): File {
         createDirectory()
         //Prepare file
-        val fileName = "Account data ${sdf.format(date)}.pdf"
+        val fileName = "Accounts data ${sdf.format(date)}.pdf"
         val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/$APP_FOLDER_NAME"
         val file = File(path, fileName)
         if (!file.exists()) file.createNewFile()
