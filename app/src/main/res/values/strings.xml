@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Accountant</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -6,9 +6,18 @@
 
     <string name="account_details">Account Details</string>
     <string name="act_id">Act ID</string>
-    <string name="act_name">Act Name</string>
+    <string name="act_name">Account Name</string>
     <string name="amount">Amount</string>
     <string name="no_records_found">No records found…</string>
+    <string name="total_amount">Total: ₹ <![CDATA[<b>%1$s</b>]]></string>
+    <string name="account_data">Account Data</string>
+    <string name="act_name_head">Act Name</string>
+    <string name="dsdate">dsdate</string>
+    <string name="module">module</string>
+    <string name="scrnname">scrnname</string>
+    <string name="actname1" tools:ignore="Typos">actname1</string>
+    <string name="actmaintype">actmaintype</string>
+    <string name="actunder">actunder</string>
 
 
 </resources>

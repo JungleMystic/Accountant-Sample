@@ -24,5 +24,14 @@
         android:id="@+id/homeFragment"
         android:name="com.lrm.accountant.fragments.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_accountDetailFragment"
+            app:destination="@id/accountDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountDetailFragment"
+        android:name="com.lrm.accountant.fragments.AccountDetailFragment"
+        android:label="fragment_account_detail"
+        tools:layout="@layout/fragment_account_detail" />
 </navigation>

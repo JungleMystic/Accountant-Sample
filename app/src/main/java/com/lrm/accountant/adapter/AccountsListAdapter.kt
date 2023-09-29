@@ -21,7 +21,7 @@ class AccountsListAdapter(
         fun bind(account: Account, itemPosition: Int) {
             binding.accountId.text = account.actId.toString()
             binding.accountName.text = account.actName
-            binding.amount.text = account.amount.toString()
+            binding.amount.text = "₹ ${account.amount.toString()}"
             binding.deleteRow.setOnClickListener {
                 viewModel.removeAccount(itemPosition)
                 notifyDataSetChanged()

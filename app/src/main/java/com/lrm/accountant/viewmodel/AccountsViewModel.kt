@@ -18,6 +18,9 @@ class AccountsViewModel : ViewModel() {
     private val _accountsDataList = MutableLiveData<MutableList<Account>>(mutableListOf())
     val accountsDataList: LiveData<MutableList<Account>> get() = _accountsDataList
 
+    private val _accountData = MutableLiveData<Account>()
+    val accountData: LiveData<Account> get() = _accountData
+
     init {
         getData()
     }
@@ -36,11 +39,17 @@ class AccountsViewModel : ViewModel() {
             }
         } catch (e: Exception) {
             _accountsDataList.value = mutableListOf()
-            Log.i(TAG, "getData: Exception -> ${e.printStackTrace()}")
+            e.printStackTrace()
+            Log.i(TAG, "getData: Exception -> ${e.message}")
         }
     }
 
+    // To remove an item from the accounts list
     fun removeAccount(position: Int) {
         _accountsDataList.postValue(_accountsDataList.value.apply { this?.removeAt(position) })
+    }
+
+    fun setAccountData(account: Account) {
+        _accountData.value = account
     }
 }
