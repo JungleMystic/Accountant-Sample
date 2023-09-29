@@ -1,5 +1,7 @@
 package com.lrm.accountant.fragments
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
@@ -15,10 +18,15 @@ import androidx.navigation.fragment.findNavController
 import com.lrm.accountant.R
 import com.lrm.accountant.adapter.AccountsListAdapter
 import com.lrm.accountant.constants.TAG
+import com.lrm.accountant.constants.WRITE_EXTERNAL_STORAGE_PERMISSION_CODE
 import com.lrm.accountant.databinding.FragmentHomeBinding
+import com.lrm.accountant.utils.PdfService
 import com.lrm.accountant.viewmodel.AccountsViewModel
+import com.vmadalin.easypermissions.EasyPermissions
+import com.vmadalin.easypermissions.dialogs.SettingsDialog
+import java.io.File
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -61,10 +69,12 @@ class HomeFragment : Fragment() {
                 binding.noRecordsTv.visibility = View.VISIBLE
                 binding.recyclerView.visibility = View.INVISIBLE
                 binding.totalAmount.visibility = View.INVISIBLE
+                binding.exportPdf.visibility = View.INVISIBLE
             } else {
                 binding.noRecordsTv.visibility = View.INVISIBLE
                 binding.recyclerView.visibility = View.VISIBLE
                 binding.totalAmount.visibility = View.VISIBLE
+                binding.exportPdf.visibility = View.VISIBLE
                 var amount = 0.0
                 list.forEach { amount += it.amount }
                 binding.totalAmount.text = HtmlCompat
@@ -78,6 +88,58 @@ class HomeFragment : Fragment() {
             accountsViewModel.getData()
             binding.refreshButton.startAnimation(rotateAnim)
         }
+
+        binding.exportPdf.setOnClickListener {
+            if (hasWriteExternalStoragePermission()) {
+                exportAsPdf()
+            } else requestWriteExternalStoragePermission()
+        }
+    }
+
+    private fun exportAsPdf() {
+        val onError: (Exception) -> Unit = { Toast.makeText(requireContext(), it.message.toString(), Toast.LENGTH_SHORT).show()}
+        val onFinish: (File) -> Unit = { Toast.makeText(requireContext(), "PDF exported successfully", Toast.LENGTH_SHORT).show() }
+        val pdfService = PdfService()
+        pdfService.createUserTable(accountsViewModel.accountsDataList.value!!.toList(), onFinish, onError)
+    }
+
+    private fun hasWriteExternalStoragePermission(): Boolean {
+        return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            EasyPermissions.hasPermissions(
+                requireContext(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        } else true
+    }
+
+    private fun requestWriteExternalStoragePermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            EasyPermissions.requestPermissions(
+                this,
+                "Permission is required to record audio",
+                WRITE_EXTERNAL_STORAGE_PERMISSION_CODE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        }
+    }
+
+    override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {
+        if (EasyPermissions.permissionPermanentlyDenied(this, perms.first())) {
+            SettingsDialog.Builder(requireContext()).build().show()
+        }
+    }
+
+    override fun onPermissionsGranted(requestCode: Int, perms: List<String>) {
+        Toast.makeText(requireContext(), "Permission Granted", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
     override fun onDestroyView() {

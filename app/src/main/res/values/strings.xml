@@ -18,6 +18,7 @@
     <string name="actname1" tools:ignore="Typos">actname1</string>
     <string name="actmaintype">actmaintype</string>
     <string name="actunder">actunder</string>
+    <string name="export_as_pdf">Export as pdf</string>
 
 
 </resources>

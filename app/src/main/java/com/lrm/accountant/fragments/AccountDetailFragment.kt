@@ -32,10 +32,8 @@ class AccountDetailFragment : Fragment() {
 
         binding.backIcon.setOnClickListener { this.findNavController().navigateUp() }
 
-        accountsViewModel.accountData.observe(viewLifecycleOwner) {account ->
-            if (account != null) {
-                bind(account)
-            }
+        accountsViewModel.accountData.observe(viewLifecycleOwner) { account ->
+            if (account != null) bind(account)
         }
     }
 

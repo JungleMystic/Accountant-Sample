@@ -92,6 +92,9 @@ dependencies {
     //SwipeRefreshLayout
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
+    // itextpdf library to convert to pdf format
+    implementation("com.itextpdf:itextpdf:5.5.13.3")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
