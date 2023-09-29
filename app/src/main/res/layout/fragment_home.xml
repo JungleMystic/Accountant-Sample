@@ -106,62 +106,60 @@
         app:layout_constraintStart_toStartOf="@id/account_details_head"
         app:layout_constraintTop_toBottomOf="@id/account_details_head" />
 
-    <TableLayout
-        android:id="@+id/table_heads"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/account_details_head"
-        android:layout_marginTop="20dp"
-        android:stretchColumns="1,2,3"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="50dp">
 
-        <TableRow
-            android:padding="10dp"
-            android:background="@drawable/table_head_bg">
-
-            <TextView
-                android:id="@+id/account_id_head"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/table_heads_ll"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/act_id"
-                android:fontFamily="@font/quicksand_bold"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:layout_marginStart="10dp"/>
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:padding="10dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="50dp"
+                android:background="@drawable/table_head_bg"
+                app:layout_constraintTop_toBottomOf="@id/account_details_head">
 
-            <TextView
-                android:id="@+id/account_name_head"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/act_name"
-                android:fontFamily="@font/quicksand_bold"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:layout_column="1"/>
+                <TextView
+                    android:id="@+id/account_id_head"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/act_id"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:layout_weight="0.5"/>
 
-            <TextView
-                android:id="@+id/amount_head"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/amount"
-                android:fontFamily="@font/quicksand_bold"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:layout_column="1"/>
+                <TextView
+                    android:id="@+id/account_name_head"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/act_name"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:layout_weight="1.5"/>
 
-        </TableRow>
+                <TextView
+                    android:id="@+id/amount_head"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/amount"
+                    android:fontFamily="@font/quicksand_bold"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:gravity="center"
+                    android:layout_weight="1"/>
 
-    </TableLayout>
+            </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/table_heads"
+        app:layout_constraintTop_toBottomOf="@id/table_heads_ll"
         android:layout_marginTop="5dp"
         android:layout_marginStart="20dp"
         android:nestedScrollingEnabled="false"
@@ -172,9 +170,9 @@
         android:id="@+id/no_records_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/table_heads"
-        app:layout_constraintEnd_toEndOf="@id/table_heads"
-        app:layout_constraintTop_toTopOf="@id/table_heads"
+        app:layout_constraintStart_toStartOf="@id/table_heads_ll"
+        app:layout_constraintEnd_toEndOf="@id/table_heads_ll"
+        app:layout_constraintTop_toTopOf="@id/table_heads_ll"
         android:layout_marginTop="150dp"
         android:text="@string/no_records_found"
         android:fontFamily="@font/quicksand_regular"
@@ -192,7 +190,7 @@
                 app:layout_constraintTop_toBottomOf="@id/recycler_view"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="100dp"/>
+                android:layout_marginEnd="90dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/export_pdf"

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="40dp"
+    android:layout_marginEnd="40dp"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/delete_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/quicksand_bold"
+            android:text="@string/delete"
+            android:textColor="@color/blue"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/delete_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/quicksand_regular"
+            android:text="@string/delete_message"
+            android:textColor="@color/black"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@id/delete_title"
+            app:layout_constraintTop_toBottomOf="@id/delete_title" />
+
+        <TextView
+            android:id="@+id/act_id_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/act_id"
+            app:layout_constraintTop_toBottomOf="@id/delete_message"
+            app:layout_constraintStart_toStartOf="@id/delete_message"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/quicksand_regular"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/act_id_dd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/act_id"
+            app:layout_constraintTop_toTopOf="@id/act_id_head"
+            app:layout_constraintBottom_toBottomOf="@id/act_id_head"
+            app:layout_constraintStart_toEndOf="@id/act_id_head"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/quicksand_regular" />
+
+        <TextView
+            android:id="@+id/act_name_head"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/act_name"
+            app:layout_constraintTop_toBottomOf="@id/act_id_head"
+            app:layout_constraintStart_toStartOf="@id/delete_message"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/quicksand_regular"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/act_name_dd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="ATR Equipments"
+            app:layout_constraintTop_toBottomOf="@id/act_name_head"
+            app:layout_constraintStart_toStartOf="@id/act_name_head"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/quicksand_regular" />
+
+        <TextView
+            android:id="@+id/no_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            android:fontFamily="@font/quicksand_regular"
+            android:text="@string/no"
+            android:textColor="@color/blue"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/yes_tv"
+            app:layout_constraintEnd_toStartOf="@id/yes_tv"
+            app:layout_constraintTop_toBottomOf="@id/act_name_dd" />
+
+        <TextView
+            android:id="@+id/yes_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="60dp"
+            android:layout_marginBottom="30dp"
+            android:fontFamily="@font/quicksand_regular"
+            android:text="@string/yes"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

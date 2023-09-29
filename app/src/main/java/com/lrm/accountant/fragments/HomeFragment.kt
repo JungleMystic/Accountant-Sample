@@ -1,6 +1,11 @@
 package com.lrm.accountant.fragments
 
 import android.Manifest
+import android.app.AlertDialog
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +20,7 @@ import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.lrm.accountant.R
 import com.lrm.accountant.adapter.AccountsListAdapter
 import com.lrm.accountant.constants.TAG
@@ -25,6 +31,7 @@ import com.lrm.accountant.utils.PdfExport
 import com.lrm.accountant.viewmodel.AccountsViewModel
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
+import de.hdodenhof.circleimageview.CircleImageView
 import java.io.File
 
 class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
@@ -59,7 +66,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             binding.swipeRefreshLayout.isRefreshing = false
         }
 
-        val adapter = AccountsListAdapter(accountsViewModel) {
+        val adapter = AccountsListAdapter(requireActivity(), requireContext(), accountsViewModel) {
             accountsViewModel.setAccountData(it)
             val action = HomeFragmentDirections.actionHomeFragmentToAccountDetailFragment()
             this.findNavController().navigate(action)
@@ -108,6 +115,44 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             val action = HomeFragmentDirections.actionHomeFragmentToScanDocFragment()
             this.findNavController().navigate(action)
         }
+
+        binding.appIcon.setOnLongClickListener {
+            showDeveloperInfoDialog()
+            true
+        }
+
+        binding.appName.setOnLongClickListener {
+            showDeveloperInfoDialog()
+            true
+        }
+    }
+
+    private fun showDeveloperInfoDialog() {
+        val dialogView = requireActivity().layoutInflater.inflate(R.layout.custom_developer_info, null)
+        val imageLink = "https://firebasestorage.googleapis.com/v0/b/gdg-vizag-f9bf0.appspot.com/o/gdg_vizag%2Fdeveloper%2FRammohan_L_pic.png?alt=media&token=6e55ba28-e0ca-45c6-b50b-be1955da2566"
+        val devImage = dialogView.findViewById<CircleImageView>(R.id.dev_image)
+        Glide.with(requireContext()).load(imageLink).placeholder(R.drawable.loading_icon_anim).into(devImage)
+
+        val devGithubLink = dialogView.findViewById<CircleImageView>(R.id.dev_github_link)
+        val devYoutubeLink = dialogView.findViewById<CircleImageView>(R.id.dev_youtube_link)
+
+        devGithubLink.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/JungleMystic"))
+            startActivity(intent)
+        }
+
+        devYoutubeLink.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/@junglemystic"))
+            startActivity(intent)
+        }
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setView(dialogView)
+        builder.setCancelable(true)
+
+        val developerDialog = builder.create()
+        developerDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        developerDialog.show()
     }
 
     private fun exportAsPdfV2() {

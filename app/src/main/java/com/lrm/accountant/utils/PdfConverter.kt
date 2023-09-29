@@ -99,7 +99,7 @@ class PdfConverter {
         val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/$APP_FOLDER_NAME"
         val sdf = SimpleDateFormat("dd-MM-yyy hh-mm a", Locale.getDefault())
         val date = Date()
-        val fileName = "Accounts data ${sdf.format(date)}.pdf"
+        val fileName = "Accounts data v2 ${sdf.format(date)}.pdf"
         val file = File(path, fileName)
         if (!file.exists()) file.createNewFile()
         pdfDocument.writeTo(FileOutputStream(file))

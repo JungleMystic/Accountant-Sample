@@ -18,8 +18,20 @@
     <string name="actname1" tools:ignore="Typos">actname1</string>
     <string name="actmaintype">actmaintype</string>
     <string name="actunder">actunder</string>
-    <string name="export_as_pdf">Export as pdf</string>
-    <string name="export_as_pdf_v2">Export pdf 2.0</string>
+    <string name="export_as_pdf">Export as PDF</string>
+    <string name="export_as_pdf_v2">Export PDF v2</string>
+
+    <string name="delete">Delete</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="delete_message">Are you sure you want to Delete…?</string>
+
+    <string name="developer_info">Developer Info</string>
+    <string name="dev_name">Rammohan Locharla</string>
+    <string name="code_name">code name</string>
+    <string name="dev_code_name">Jungle Mystic</string>
+    <string name="about_me">About Me</string>
+    <string name="dev_about">CA Aspirant by academics &amp; Android Kotlin Developer by passion. \n \n Pet Lover, Music Lover, Foodie, sometimes cook.</string>
 
 
 </resources>
