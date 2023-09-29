@@ -20,7 +20,7 @@ import com.lrm.accountant.adapter.AccountsListAdapter
 import com.lrm.accountant.constants.TAG
 import com.lrm.accountant.constants.WRITE_EXTERNAL_STORAGE_PERMISSION_CODE
 import com.lrm.accountant.databinding.FragmentHomeBinding
-import com.lrm.accountant.utils.PdfService
+import com.lrm.accountant.utils.PdfExport
 import com.lrm.accountant.viewmodel.AccountsViewModel
 import com.vmadalin.easypermissions.EasyPermissions
 import com.vmadalin.easypermissions.dialogs.SettingsDialog
@@ -99,8 +99,8 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private fun exportAsPdf() {
         val onError: (Exception) -> Unit = { Toast.makeText(requireContext(), it.message.toString(), Toast.LENGTH_SHORT).show()}
         val onFinish: (File) -> Unit = { Toast.makeText(requireContext(), "PDF exported successfully", Toast.LENGTH_SHORT).show() }
-        val pdfService = PdfService()
-        pdfService.createUserTable(accountsViewModel.accountsDataList.value!!.toList(), onFinish, onError)
+        val pdfExport = PdfExport()
+        pdfExport.createUserTable(accountsViewModel.accountsDataList.value!!.toList(), onFinish, onError)
     }
 
     private fun hasWriteExternalStoragePermission(): Boolean {

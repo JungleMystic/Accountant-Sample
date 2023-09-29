@@ -20,9 +20,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class PdfService {
+class PdfExport {
 
-    private val TITLE_FONT = Font(Font.FontFamily.TIMES_ROMAN, 16f, Font.BOLD)
+    private val titleFont = Font(Font.FontFamily.TIMES_ROMAN, 16f, Font.BOLD)
     private lateinit var pdf: PdfWriter
 
     private fun createDirectory() {
@@ -100,7 +100,7 @@ class PdfService {
         setupPdfWriter(document, file)
 
         //Add table title
-        document.add(Paragraph("Account Details", TITLE_FONT))
+        document.add(Paragraph("Account Details", titleFont))
         document.add(Paragraph(" "))
 
         //Define Table
@@ -122,13 +122,12 @@ class PdfService {
         }
         //write user data into table
         data.forEach {
-            //Write Each User Id
             val actIdCell = createCell(it.actId.toString())
             table.addCell(actIdCell)
-            //Write Each First Name
+
             val actNameCell = createCell(it.actName)
             table.addCell(actNameCell)
-            //Write Each Middle Name
+
             val amountCell = createCell(it.amount.toString())
             table.addCell(amountCell)
         }
