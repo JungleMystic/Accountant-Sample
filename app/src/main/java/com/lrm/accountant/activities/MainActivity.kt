@@ -8,6 +8,7 @@ import com.lrm.accountant.R
 import com.lrm.accountant.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 

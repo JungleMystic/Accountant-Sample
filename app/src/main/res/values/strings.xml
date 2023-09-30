@@ -1,9 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Accountant</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="account_details">Account Data</string>
     <string name="act_id">Act ID</string>
     <string name="act_name">Accounts Name</string>
@@ -32,9 +29,8 @@
     <string name="dev_code_name">Jungle Mystic</string>
     <string name="about_me">About Me</string>
     <string name="dev_about">CA Aspirant by academics &amp; Android Kotlin Developer by passion. \n \n Pet Lover, Music Lover, Foodie, sometimes cook.</string>
+
     <string name="export_as_excel">Export as Excel</string>
     <string name="scan_doc">Scan Document</string>
     <string name="scan">Scan</string>
-
-
 </resources>
