@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.lrm.accountant.R
 import com.lrm.accountant.activities.ScanDocActivity
 import com.lrm.accountant.constants.TAG
@@ -55,6 +56,8 @@ class ScanDocFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.backIcon.setOnClickListener { this.findNavController().navigateUp() }
 
         binding.scanButton.setOnClickListener {
             imageUri.launch(Intent(requireActivity(), ScanDocActivity::class.java))
