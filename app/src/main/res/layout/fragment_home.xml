@@ -106,7 +106,6 @@
         app:layout_constraintStart_toStartOf="@id/account_details_head"
         app:layout_constraintTop_toBottomOf="@id/account_details_head" />
 
-
             <LinearLayout
                 android:id="@+id/table_heads_ll"
                 android:layout_width="match_parent"
@@ -192,32 +191,46 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="90dp"/>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/export_pdf"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/export_pdf_ll"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/export_as_pdf"
-                android:backgroundTint="@color/blue"
+                android:gravity="center"
                 app:layout_constraintTop_toBottomOf="@id/total_amount"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/export_pdf_v2"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
-                android:visibility="invisible"
-                tools:visibility="visible"/>
+                android:layout_marginTop="30dp">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/export_pdf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/export_as_pdf"
+                    android:backgroundTint="@color/blue"
+                    android:visibility="invisible"
+                    tools:visibility="visible"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/export_pdf_v2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/export_as_pdf_v2"
+                    android:backgroundTint="@color/blue"
+                    android:visibility="invisible"
+                    android:layout_marginStart="40dp"
+                    tools:visibility="visible"/>
+
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/export_pdf_v2"
+                android:id="@+id/export_excel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/export_as_pdf_v2"
+                android:text="@string/export_as_excel"
                 android:backgroundTint="@color/blue"
-                app:layout_constraintTop_toTopOf="@id/export_pdf"
-                app:layout_constraintBottom_toBottomOf="@id/export_pdf"
-                app:layout_constraintStart_toEndOf="@id/export_pdf"
+                app:layout_constraintTop_toBottomOf="@id/export_pdf_ll"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="30dp"
                 android:visibility="invisible"
                 tools:visibility="visible"/>

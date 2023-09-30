@@ -26,6 +26,7 @@ import com.lrm.accountant.adapter.AccountsListAdapter
 import com.lrm.accountant.constants.TAG
 import com.lrm.accountant.constants.WRITE_EXTERNAL_STORAGE_PERMISSION_CODE
 import com.lrm.accountant.databinding.FragmentHomeBinding
+import com.lrm.accountant.utils.ExcelExport
 import com.lrm.accountant.utils.PdfConverter
 import com.lrm.accountant.utils.PdfExport
 import com.lrm.accountant.viewmodel.AccountsViewModel
@@ -79,12 +80,14 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 binding.totalAmount.visibility = View.INVISIBLE
                 binding.exportPdf.visibility = View.INVISIBLE
                 binding.exportPdfV2.visibility = View.INVISIBLE
+                binding.exportExcel.visibility = View.INVISIBLE
             } else {
                 binding.noRecordsTv.visibility = View.INVISIBLE
                 binding.recyclerView.visibility = View.VISIBLE
                 binding.totalAmount.visibility = View.VISIBLE
                 binding.exportPdf.visibility = View.VISIBLE
                 binding.exportPdfV2.visibility = View.VISIBLE
+                binding.exportExcel.visibility = View.VISIBLE
                 var amount = 0.0
                 list.forEach { amount += it.amount }
                 binding.totalAmount.text = HtmlCompat
@@ -125,35 +128,19 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             showDeveloperInfoDialog()
             true
         }
+
+        binding.exportExcel.setOnClickListener {
+            exportAsExcel()
+        }
     }
 
-    private fun showDeveloperInfoDialog() {
-        val dialogView = requireActivity().layoutInflater.inflate(R.layout.custom_developer_info, null)
-        val imageLink = "https://firebasestorage.googleapis.com/v0/b/gdg-vizag-f9bf0.appspot.com/o/gdg_vizag%2Fdeveloper%2FRammohan_L_pic.png?alt=media&token=6e55ba28-e0ca-45c6-b50b-be1955da2566"
-        val devImage = dialogView.findViewById<CircleImageView>(R.id.dev_image)
-        Glide.with(requireContext()).load(imageLink).placeholder(R.drawable.loading_icon_anim).into(devImage)
-
-        val devGithubLink = dialogView.findViewById<CircleImageView>(R.id.dev_github_link)
-        val devYoutubeLink = dialogView.findViewById<CircleImageView>(R.id.dev_youtube_link)
-
-        devGithubLink.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/JungleMystic"))
-            startActivity(intent)
-        }
-
-        devYoutubeLink.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/@junglemystic"))
-            startActivity(intent)
-        }
-
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setView(dialogView)
-        builder.setCancelable(true)
-
-        val developerDialog = builder.create()
-        developerDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        developerDialog.show()
+    private fun exportAsExcel() {
+        val excelExport = ExcelExport()
+        val data = accountsViewModel.accountsDataList.value!!
+        val workbook = excelExport.createWorkbook(data)
+        excelExport.createExcel(requireContext(), workbook)
     }
+
 
     private fun exportAsPdfV2() {
         val pdfConverter = PdfConverter()
@@ -204,6 +191,34 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    private fun showDeveloperInfoDialog() {
+        val dialogView = requireActivity().layoutInflater.inflate(R.layout.custom_developer_info, null)
+        val imageLink = "https://firebasestorage.googleapis.com/v0/b/gdg-vizag-f9bf0.appspot.com/o/gdg_vizag%2Fdeveloper%2FRammohan_L_pic.png?alt=media&token=6e55ba28-e0ca-45c6-b50b-be1955da2566"
+        val devImage = dialogView.findViewById<CircleImageView>(R.id.dev_image)
+        Glide.with(requireContext()).load(imageLink).placeholder(R.drawable.loading_icon_anim).into(devImage)
+
+        val devGithubLink = dialogView.findViewById<CircleImageView>(R.id.dev_github_link)
+        val devYoutubeLink = dialogView.findViewById<CircleImageView>(R.id.dev_youtube_link)
+
+        devGithubLink.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/JungleMystic"))
+            startActivity(intent)
+        }
+
+        devYoutubeLink.setOnClickListener {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://youtube.com/@junglemystic"))
+            startActivity(intent)
+        }
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setView(dialogView)
+        builder.setCancelable(true)
+
+        val developerDialog = builder.create()
+        developerDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        developerDialog.show()
     }
 
     override fun onDestroyView() {

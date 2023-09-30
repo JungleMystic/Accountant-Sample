@@ -95,6 +95,10 @@ dependencies {
     // itextpdf library to convert to pdf format
     implementation("com.itextpdf:itextpdf:5.5.13.3")
 
+    // Apache poi for Microsoft excel
+    implementation("org.apache.poi:poi:5.2.4")
+    implementation("org.apache.poi:poi-ooxml:5.2.4")
+
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
