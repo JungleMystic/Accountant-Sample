@@ -8,7 +8,6 @@ import android.graphics.pdf.PdfDocument
 import android.os.Build
 import android.os.Environment
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lrm.accountant.R
 import com.lrm.accountant.adapter.PdfExportListAdapter
 import com.lrm.accountant.constants.APP_FOLDER_NAME
-import com.lrm.accountant.constants.TAG
 import com.lrm.accountant.model.Account
 import java.io.File
 import java.io.FileOutputStream
@@ -36,7 +34,7 @@ class PdfConverter {
         val view = LayoutInflater.from(context).inflate(R.layout.fragment_home, null)
         val adapter = PdfExportListAdapter()
         val bitmap = createBitmapFromView(activity, context, view, data, adapter)
-        convertBitmapToPdf(bitmap, activity)
+        convertBitmapToPdf(bitmap, activity, "Accounts Data v2")
     }
 
     private fun createBitmapFromView(
@@ -88,7 +86,7 @@ class PdfConverter {
         return Bitmap.createScaledBitmap(bitmap, 1080, 1920, true)
     }
 
-    private fun convertBitmapToPdf(bitmap: Bitmap, context: Context) {
+    fun convertBitmapToPdf(bitmap: Bitmap, context: Context, name: String) {
         createDirectory()
 
         val pdfDocument = PdfDocument()
@@ -99,23 +97,12 @@ class PdfConverter {
         val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/$APP_FOLDER_NAME"
         val sdf = SimpleDateFormat("dd-MM-yyy hh-mm a", Locale.getDefault())
         val date = Date()
-        val fileName = "Accounts data v2 ${sdf.format(date)}.pdf"
+        val fileName = "$name ${sdf.format(date)}.pdf"
         val file = File(path, fileName)
         if (!file.exists()) file.createNewFile()
         pdfDocument.writeTo(FileOutputStream(file))
         pdfDocument.close()
 
         Toast.makeText(context, "PDF v2 exported successfully", Toast.LENGTH_SHORT).show()
-    }
-
-    private fun createDirectory() {
-        Log.i(TAG, "createDirectory is called")
-        val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), APP_FOLDER_NAME)
-        if (!file.exists()){
-            file.mkdir()
-            Log.i(TAG, "Folder is created")
-        } else {
-            Log.i(TAG, "Folder is already created")
-        }
     }
 }

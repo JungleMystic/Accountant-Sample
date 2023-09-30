@@ -23,6 +23,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.lrm.accountant.R
 import com.lrm.accountant.adapter.AccountsListAdapter
+import com.lrm.accountant.constants.CAMERA_PERMISSION_CODE
 import com.lrm.accountant.constants.TAG
 import com.lrm.accountant.constants.WRITE_EXTERNAL_STORAGE_PERMISSION_CODE
 import com.lrm.accountant.databinding.FragmentHomeBinding
@@ -115,8 +116,10 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
 
         binding.scanFab.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToScanDocFragment()
-            this.findNavController().navigate(action)
+            if (hasCameraPermission()) {
+                val action = HomeFragmentDirections.actionHomeFragmentToScanDocFragment()
+                this.findNavController().navigate(action)
+            } else requestCameraPermission()
         }
 
         binding.appIcon.setOnLongClickListener {
@@ -140,7 +143,6 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         val workbook = excelExport.createWorkbook(data)
         excelExport.createExcel(requireContext(), workbook)
     }
-
 
     private fun exportAsPdfV2() {
         val pdfConverter = PdfConverter()
@@ -172,6 +174,19 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
         }
+    }
+
+    private fun hasCameraPermission(): Boolean {
+        return EasyPermissions.hasPermissions(requireContext(), Manifest.permission.CAMERA)
+    }
+
+    private fun requestCameraPermission() {
+        EasyPermissions.requestPermissions(
+            this,
+            "Permission is required to make call",
+            CAMERA_PERMISSION_CODE,
+            Manifest.permission.CAMERA
+        )
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: List<String>) {

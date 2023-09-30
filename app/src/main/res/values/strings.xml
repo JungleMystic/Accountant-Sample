@@ -33,6 +33,8 @@
     <string name="about_me">About Me</string>
     <string name="dev_about">CA Aspirant by academics &amp; Android Kotlin Developer by passion. \n \n Pet Lover, Music Lover, Foodie, sometimes cook.</string>
     <string name="export_as_excel">Export as Excel</string>
+    <string name="scan_doc">Scan Document</string>
+    <string name="scan">Scan</string>
 
 
 </resources>

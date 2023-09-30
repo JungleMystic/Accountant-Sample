@@ -7,3 +7,4 @@ const val APP_FOLDER_NAME = "Accountant"
 
 // Permission Codes
 const val WRITE_EXTERNAL_STORAGE_PERMISSION_CODE = 100
+const val CAMERA_PERMISSION_CODE = 110

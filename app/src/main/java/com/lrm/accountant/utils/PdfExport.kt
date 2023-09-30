@@ -1,7 +1,6 @@
 package com.lrm.accountant.utils
 
 import android.os.Environment
-import android.util.Log
 import com.itextpdf.text.Document
 import com.itextpdf.text.Element
 import com.itextpdf.text.Font
@@ -12,7 +11,6 @@ import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 import com.lrm.accountant.constants.APP_FOLDER_NAME
-import com.lrm.accountant.constants.TAG
 import com.lrm.accountant.model.Account
 import java.io.File
 import java.io.FileOutputStream
@@ -27,17 +25,6 @@ class PdfExport {
 
     val sdf = SimpleDateFormat("dd-MM-yyy hh-mm a", Locale.getDefault())
     var date = Date()
-
-    private fun createDirectory() {
-        Log.i(TAG, "createDirectory is called")
-        val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), APP_FOLDER_NAME)
-        if (!file.exists()){
-            file.mkdir()
-            Log.i(TAG, "Folder is created")
-        } else {
-            Log.i(TAG, "Folder is already created")
-        }
-    }
 
     private fun createFile(): File {
         createDirectory()

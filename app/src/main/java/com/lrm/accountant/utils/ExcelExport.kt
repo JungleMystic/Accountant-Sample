@@ -107,6 +107,8 @@ class ExcelExport {
     }
 
     fun createExcel(context: Context, workbook: Workbook) {
+        createDirectory()
+
         //Get App Director, APP_DIRECTORY_NAME is a string
         val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
             .toString() + "/$APP_FOLDER_NAME"
