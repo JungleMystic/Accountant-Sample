@@ -88,16 +88,11 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
 
         // This will get the data from the Web Api
-        if (accountsViewModel.isOnline(requireContext())) {
-            accountsViewModel.getData()
-        } else networkDialog.show()
-
+        getData()
 
         // Swipe down to refresh, this will get the data from the Web Api
         binding.swipeRefreshLayout.setOnRefreshListener {
-            if (accountsViewModel.isOnline(requireContext())) {
-                accountsViewModel.getData()
-            } else networkDialog.show()
+            getData()
             binding.swipeRefreshLayout.isRefreshing = false
         }
 
@@ -140,9 +135,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
 
         binding.refreshButton.setOnClickListener {
-            if (accountsViewModel.isOnline(requireContext())) {
-                accountsViewModel.getData()
-            } else networkDialog.show()
+            getData()
             binding.refreshButton.startAnimation(rotateAnim)
         }
 
@@ -191,8 +184,17 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             // Show or hide network dialog based on the status observed from LiveData
             if (!status) {
                 networkDialog.show()
-            } else networkDialog.dismiss()
+            } else {
+                networkDialog.dismiss()
+                getData()
+            }
         }
+    }
+
+    private fun getData() {
+        if (accountsViewModel.isOnline(requireContext())) {
+            accountsViewModel.getData()
+        } else networkDialog.show()
     }
 
     // This function exports the excel to our App folder
