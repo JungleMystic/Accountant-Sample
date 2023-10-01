@@ -21,6 +21,7 @@ class SplashScreenFragment : Fragment() {
     private var _binding: FragmentSplashScreenBinding? = null
     private val binding get() = _binding!!
 
+    // Lazily initialize the animation to animate the App's title
     private val appNameAnim: Animation by lazy {
         AnimationUtils.loadAnimation(requireContext(), R.anim.app_name_anim)
     }
@@ -43,8 +44,10 @@ class SplashScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Start the animation to App's title
         binding.appName.startAnimation(appNameAnim)
 
+        // This waits for 3 seconds in the Splash screen and then navigates to Home Fragment
         Handler(Looper.getMainLooper()).postDelayed({
             val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToHomeFragment()
             this@SplashScreenFragment.findNavController().navigate(action)

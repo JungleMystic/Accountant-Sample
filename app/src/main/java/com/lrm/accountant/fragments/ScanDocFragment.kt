@@ -25,8 +25,10 @@ class ScanDocFragment : Fragment() {
     private var _binding: FragmentScanDocBinding? = null
     private val binding get() = _binding!!
 
+    // Created a global variable
     private var uri = Uri.EMPTY
 
+    // registering for Activity result from ScanDoc Activity for the image
     private val imageUri = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val intent = result.data
@@ -57,8 +59,10 @@ class ScanDocFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // This navigates up
         binding.backIcon.setOnClickListener { this.findNavController().navigateUp() }
 
+        // Starting the ScanDoc Activity for result using launch
         binding.scanButton.setOnClickListener {
             imageUri.launch(Intent(requireActivity(), ScanDocActivity::class.java))
         }
@@ -66,6 +70,7 @@ class ScanDocFragment : Fragment() {
         binding.exportPdf.setOnClickListener { exportAsPdf() }
     }
 
+    // This converts the scanned image and exports as PDF
     private fun exportAsPdf() {
         createDirectory()
         val pdfConverter = PdfConverter()

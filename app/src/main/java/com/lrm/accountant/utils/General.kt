@@ -6,8 +6,8 @@ import com.lrm.accountant.constants.APP_FOLDER_NAME
 import com.lrm.accountant.constants.TAG
 import java.io.File
 
+// This checks and creates the App folder in Downloads folder
 fun createDirectory() {
-    Log.i(TAG, "createDirectory is called")
     val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), APP_FOLDER_NAME)
     if (!file.exists()){
         file.mkdir()

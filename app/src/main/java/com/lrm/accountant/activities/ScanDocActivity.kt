@@ -13,6 +13,8 @@ import com.zynksoftware.documentscanner.model.ScannerResults
 
 class ScanDocActivity : ScanActivity() {
 
+    // Entire Activity is handled by the Document Scanner Library
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_scan_doc)
@@ -30,6 +32,7 @@ class ScanDocActivity : ScanActivity() {
         Toast.makeText(this, "${error.errorMessage?.error}", Toast.LENGTH_SHORT).show()
     }
 
+    // Send the image uri to the ScanDoc Fragment onSuccess of Document scanner
     override fun onSuccess(scannerResults: ScannerResults) {
         val file = scannerResults.croppedImageFile!!
         Log.i(TAG, "onSuccess: -> file -> $file")

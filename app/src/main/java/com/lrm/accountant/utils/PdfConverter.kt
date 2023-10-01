@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+// This class create a bitmap from layout and then converts into PDF.
 class PdfConverter {
 
     fun createPdf(
@@ -60,6 +61,7 @@ class PdfConverter {
         context: Context,
         view: View
     ): Bitmap {
+
         val displayMetrics = DisplayMetrics()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             context.display?.getRealMetrics(displayMetrics)
@@ -67,6 +69,7 @@ class PdfConverter {
         } else {
             activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
         }
+
         view.measure(
             View.MeasureSpec.makeMeasureSpec(
                 displayMetrics.widthPixels, View.MeasureSpec.EXACTLY
@@ -75,7 +78,9 @@ class PdfConverter {
                 displayMetrics.heightPixels, View.MeasureSpec.EXACTLY
             )
         )
+
         view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels)
+
         val bitmap = Bitmap.createBitmap(
             view.measuredWidth,
             view.measuredHeight, Bitmap.Config.ARGB_8888
@@ -83,6 +88,7 @@ class PdfConverter {
 
         val canvas = Canvas(bitmap)
         view.draw(canvas)
+
         return Bitmap.createScaledBitmap(bitmap, 1080, 1920, true)
     }
 
@@ -94,12 +100,14 @@ class PdfConverter {
         val page = pdfDocument.startPage(pageInfo)
         page.canvas.drawBitmap(bitmap, 0F, 0F, null)
         pdfDocument.finishPage(page)
+
         val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/$APP_FOLDER_NAME"
         val sdf = SimpleDateFormat("dd-MM-yyy hh-mm a", Locale.getDefault())
         val date = Date()
         val fileName = "$name ${sdf.format(date)}.pdf"
         val file = File(path, fileName)
         if (!file.exists()) file.createNewFile()
+
         pdfDocument.writeTo(FileOutputStream(file))
         pdfDocument.close()
 

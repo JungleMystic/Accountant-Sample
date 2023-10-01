@@ -52,14 +52,17 @@ class AccountsViewModel : ViewModel() {
         _accountsDataList.postValue(_accountsDataList.value.apply { this?.removeAt(position) })
     }
 
+    // Setting the account chosen by user
     fun setAccountData(account: Account) {
         _accountData.value = account
     }
 
+    // Setting the Online status
     private fun setOnlineStatus(status: Boolean) {
         _onlineStatus.postValue(status)
     }
 
+    // This checks the Internet access
     fun isOnline(context: Context): Boolean {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -80,6 +83,7 @@ class AccountsViewModel : ViewModel() {
         return false
     }
 
+    // This registers the network callback functions and sets the online status
     fun checkForInternet(context: Context) {
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

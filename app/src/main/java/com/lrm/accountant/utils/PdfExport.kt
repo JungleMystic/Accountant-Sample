@@ -18,14 +18,16 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+// This class exports the pdf using itext pdf library
 class PdfExport {
 
     private val titleFont = Font(Font.FontFamily.TIMES_ROMAN, 16f, Font.BOLD)
     private lateinit var pdf: PdfWriter
 
-    val sdf = SimpleDateFormat("dd-MM-yyy hh-mm a", Locale.getDefault())
-    var date = Date()
+    private val sdf = SimpleDateFormat("dd-MM-yyy hh-mm a", Locale.getDefault())
+    private var date = Date()
 
+    // Create and return a File
     private fun createFile(): File {
         createDirectory()
         //Prepare file
@@ -36,14 +38,15 @@ class PdfExport {
         return file
     }
 
+    //Create and return Document
     private fun createDocument(): Document {
-        //Create Document
         val document = Document()
         document.setMargins(24f, 24f, 32f, 32f)
         document.pageSize = PageSize.A4
         return document
     }
 
+    // Setting the PDF writer
     private fun setupPdfWriter(document: Document, file: File) {
         pdf = PdfWriter.getInstance(document, FileOutputStream(file))
         pdf.setFullCompression()
@@ -75,6 +78,7 @@ class PdfExport {
         return cell
     }
 
+    // This creates a table
     fun createUserTable(
         data: List<Account>,
         onFinish: (file: File) -> Unit,

@@ -22,8 +22,10 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+// This class exports the data to Excel file
 class ExcelExport {
 
+    // Create and return a workbook
     fun createWorkbook(data: List<Account>): Workbook {
         val workbook = XSSFWorkbook()
         val sheet = workbook.createSheet("Accounts Data")
@@ -40,8 +42,6 @@ class ExcelExport {
     }
 
     private fun createSheetHeader(cellStyle: CellStyle, sheet: Sheet) {
-        //setHeaderStyle is a custom function written below to add header style
-
         //Create sheet first row
         val row = sheet.createRow(0)
 

@@ -30,13 +30,16 @@ class AccountDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // This navigates up
         binding.backIcon.setOnClickListener { this.findNavController().navigateUp() }
 
+        // Getting the data of an account selected by the user and calls the bind function
         accountsViewModel.accountData.observe(viewLifecycleOwner) { account ->
             if (account != null) bind(account)
         }
     }
 
+    // This function populates the data
     private fun bind(account: Account) {
         binding.apply {
             fragmentLabel.text = account.actName
