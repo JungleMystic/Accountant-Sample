@@ -1,5 +1,9 @@
 package com.lrm.accountant.viewmodel
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,9 +25,8 @@ class AccountsViewModel : ViewModel() {
     private val _accountData = MutableLiveData<Account>()
     val accountData: LiveData<Account> get() = _accountData
 
-    init {
-        getData()
-    }
+    private val _onlineStatus = MutableLiveData<Boolean>()
+    val onlineStatus: LiveData<Boolean> get() = _onlineStatus
 
     // To retrieve data from the Web Api
     fun getData() {
@@ -51,5 +54,47 @@ class AccountsViewModel : ViewModel() {
 
     fun setAccountData(account: Account) {
         _accountData.value = account
+    }
+
+    private fun setOnlineStatus(status: Boolean) {
+        _onlineStatus.postValue(status)
+    }
+
+    fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val capabilities =
+            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+        if (capabilities != null) {
+            if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                return true
+            } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                return true
+            }
+        }
+        return false
+    }
+
+    fun checkForInternet(context: Context) {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
+        connectivityManager.registerDefaultNetworkCallback(object :
+            ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                setOnlineStatus(true)
+            }
+
+            override fun onLost(network: Network) {
+                super.onLost(network)
+                setOnlineStatus(false)
+            }
+        })
     }
 }
