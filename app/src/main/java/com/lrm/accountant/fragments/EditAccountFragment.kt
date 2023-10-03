@@ -34,6 +34,8 @@ class EditAccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.backIcon.setOnClickListener { this.findNavController().navigateUp() }
+
         val accountId = navArgs.id
         val account = accountsViewModel.getAccount(accountId)
         Log.i(TAG, "onViewCreated: EditAccount -> Account Data -> $account")

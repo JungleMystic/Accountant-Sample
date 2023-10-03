@@ -40,4 +40,7 @@
     <string name="edit_account">Edit Account</string>
     <string name="update">Update</string>
     <string name="account_name">Account Name</string>
+
+    <string name="pdf_view">PDF View</string>
+    <string name="file_name">File Name</string>
 </resources>

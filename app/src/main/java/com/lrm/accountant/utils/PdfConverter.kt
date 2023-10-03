@@ -1,7 +1,9 @@
 package com.lrm.accountant.utils
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.pdf.PdfDocument
@@ -12,6 +14,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.core.text.HtmlCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.lrm.accountant.R
@@ -110,6 +113,18 @@ class PdfConverter {
 
         pdfDocument.writeTo(FileOutputStream(file))
         pdfDocument.close()
+
+        val pdfOpenIntent = Intent(Intent.ACTION_VIEW)
+        pdfOpenIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        val filePath = FileProvider.getUriForFile(context, context.applicationContext.packageName + ".provider", file)
+        pdfOpenIntent.setDataAndType(filePath, "application/pdf")
+        // Specifically saying to open google drive to load the exported pdf.
+        pdfOpenIntent.setPackage("com.google.android.apps.docs")
+        try {
+            context.startActivity(pdfOpenIntent)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, "Google Drive is not installed on your device", Toast.LENGTH_SHORT).show()
+        }
 
         Toast.makeText(context, "PDF v2 exported successfully", Toast.LENGTH_SHORT).show()
     }

@@ -105,7 +105,7 @@ class PdfExport {
         val table = createTable(3, columnWidth)
 
         //Table header (first row)
-        val tableHeaderContent = listOf("ActID", "ActName", "Amount")
+        val tableHeaderContent = listOf("ActID", "Account Name", "Amount")
 
         //write table header into table
         tableHeaderContent.forEach {

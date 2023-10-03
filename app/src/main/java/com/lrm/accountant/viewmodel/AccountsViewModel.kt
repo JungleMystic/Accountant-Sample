@@ -58,6 +58,7 @@ class AccountsViewModel : ViewModel() {
         val updatedAccount = Account(id, name, account.actmaintype, account.actname1, account.actunder, amount, account.dsdate, account.module, account.scrnname)
         Log.i(TAG, "updateAccount: Updated -> $updatedAccount")
         _accountsDataList.value?.set(_accountsDataList.value?.indexOf(account)!!, updatedAccount)
+        _accountsDataList.value?.sortBy { it.actName }
         Log.i(TAG, "updateAccount: New Accounts Data list -> ${accountsDataList.value}")
     }
 

@@ -3,7 +3,6 @@ package com.lrm.accountant.fragments
 import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -20,7 +19,6 @@ import android.view.animation.AnimationUtils
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -221,23 +219,8 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         val onError: (Exception) -> Unit = { Toast.makeText(requireContext(), it.message.toString(), Toast.LENGTH_SHORT).show()}
         val onFinish: (File) -> Unit = {
             Log.i(TAG, "exportAsPdf: what is file -> $it")
-            val path = FileProvider.getUriForFile(requireContext(), requireActivity().applicationContext.packageName + ".provider", it)
-            Log.i(TAG, "exportAsPdf: File path -> $path")
-            val pdfOpenIntent = Intent(Intent.ACTION_VIEW)
-            pdfOpenIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-            pdfOpenIntent.setDataAndType(path, "application/pdf")
-            // Specifically saying to open google drive to load the exported pdf.
-            pdfOpenIntent.setPackage("com.google.android.apps.docs")
-
-            val launchIntent = requireActivity().packageManager.getLaunchIntentForPackage("com.google.android.apps.docs")
-            if (launchIntent != null) {
-                try {
-                    startActivity(pdfOpenIntent)
-                } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(requireContext(), "Google Drive is not installed on your device", Toast.LENGTH_SHORT).show()
-                }
-            }
-
+            val action = HomeFragmentDirections.actionHomeFragmentToPdfViewerFragment(it.toString())
+            this.findNavController().navigate(action)
             Toast.makeText(requireContext(), "PDF exported successfully", Toast.LENGTH_SHORT).show()
         }
         val pdfExport = PdfExport()
