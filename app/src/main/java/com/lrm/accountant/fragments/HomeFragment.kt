@@ -188,7 +188,9 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 networkDialog.show()
             } else {
                 networkDialog.dismiss()
-                //getData()
+                if (accountsViewModel.accountsDataList.value?.isEmpty()!!) {
+                    getData()
+                }
             }
         }
     }
