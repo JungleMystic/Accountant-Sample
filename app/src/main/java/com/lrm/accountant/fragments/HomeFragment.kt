@@ -3,6 +3,7 @@ package com.lrm.accountant.fragments
 import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -225,7 +226,18 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             val pdfOpenIntent = Intent(Intent.ACTION_VIEW)
             pdfOpenIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
             pdfOpenIntent.setDataAndType(path, "application/pdf")
-            requireContext().startActivity(pdfOpenIntent)
+            // Specifically saying to open google drive to load the exported pdf.
+            pdfOpenIntent.setPackage("com.google.android.apps.docs")
+
+            val launchIntent = requireActivity().packageManager.getLaunchIntentForPackage("com.google.android.apps.docs")
+            if (launchIntent != null) {
+                try {
+                    startActivity(pdfOpenIntent)
+                } catch (e: ActivityNotFoundException) {
+                    Toast.makeText(requireContext(), "Google Drive is not installed on your device", Toast.LENGTH_SHORT).show()
+                }
+            }
+
             Toast.makeText(requireContext(), "PDF exported successfully", Toast.LENGTH_SHORT).show()
         }
         val pdfExport = PdfExport()

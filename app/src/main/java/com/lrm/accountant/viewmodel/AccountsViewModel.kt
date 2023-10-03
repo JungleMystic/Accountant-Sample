@@ -57,8 +57,7 @@ class AccountsViewModel : ViewModel() {
         Log.i(TAG, "updateAccount: getAccount -> $account")
         val updatedAccount = Account(id, name, account.actmaintype, account.actname1, account.actunder, amount, account.dsdate, account.module, account.scrnname)
         Log.i(TAG, "updateAccount: Updated -> $updatedAccount")
-        _accountsDataList.value?.remove(account)
-        _accountsDataList.value?.add(updatedAccount)
+        _accountsDataList.value?.set(_accountsDataList.value?.indexOf(account)!!, updatedAccount)
         Log.i(TAG, "updateAccount: New Accounts Data list -> ${accountsDataList.value}")
     }
 
