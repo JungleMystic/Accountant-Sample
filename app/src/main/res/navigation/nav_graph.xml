@@ -44,10 +44,32 @@
         android:id="@+id/accountDetailFragment"
         android:name="com.lrm.accountant.fragments.AccountDetailFragment"
         android:label="fragment_account_detail"
-        tools:layout="@layout/fragment_account_detail" />
+        tools:layout="@layout/fragment_account_detail" >
+        <action
+            android:id="@+id/action_accountDetailFragment_to_editAccountFragment"
+            app:destination="@id/editAccountFragment"
+            app:enterAnim="@anim/enter_anim"
+            app:exitAnim="@anim/exit_anim"
+            app:popEnterAnim="@anim/pop_enter_anim"
+            app:popExitAnim="@anim/pop_exit_anim"/>
+    </fragment>
     <fragment
         android:id="@+id/scanDocFragment"
         android:name="com.lrm.accountant.fragments.ScanDocFragment"
         android:label="fragment_scan_doc"
         tools:layout="@layout/fragment_scan_doc" />
+    <fragment
+        android:id="@+id/editAccountFragment"
+        android:name="com.lrm.accountant.fragments.EditAccountFragment"
+        android:label="fragment_edit_account"
+        tools:layout="@layout/fragment_edit_account" >
+        <argument
+            android:name="id"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_editAccountFragment_to_homeFragment"
+            app:destination="@id/homeFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

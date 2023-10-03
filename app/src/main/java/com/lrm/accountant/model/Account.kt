@@ -6,12 +6,12 @@ data class Account(
     @SerializedName("ActID")
     val actId: Int,
     @SerializedName("ActName")
-    val actName: String,
+    var actName: String,
     val actmaintype: String,
     val actname1: String,
     val actunder: Int,
     val amount: Double,
-    val dsdate: Any,
-    val module: Any,
-    val scrnname: Any
+    val dsdate: Any?,
+    val module: Any?,
+    val scrnname: Any?
 )

@@ -27,13 +27,15 @@ class PdfExport {
     private val sdf = SimpleDateFormat("dd-MM-yyy hh-mm a", Locale.getDefault())
     private var date = Date()
 
+    private lateinit var file: File
+
     // Create and return a File
     private fun createFile(): File {
         createDirectory()
         //Prepare file
         val fileName = "Accounts data ${sdf.format(date)}.pdf"
         val path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/$APP_FOLDER_NAME"
-        val file = File(path, fileName)
+        file = File(path, fileName)
         if (!file.exists()) file.createNewFile()
         return file
     }

@@ -62,6 +62,11 @@ class AccountDetailFragment : Fragment() {
             actname1.text = account.actname1
             actmaintype.text = account.actmaintype
             actunder.text = account.actunder.toString()
+
+            editFab.setOnClickListener {
+                val action = AccountDetailFragmentDirections.actionAccountDetailFragmentToEditAccountFragment(account.actId)
+                this@AccountDetailFragment.findNavController().navigate(action)
+            }
         }
     }
 

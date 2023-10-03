@@ -36,4 +36,8 @@
     <string name="export_as_excel">Export as Excel</string>
     <string name="scan_doc">Scan Document</string>
     <string name="scan">Scan</string>
+
+    <string name="edit_account">Edit Account</string>
+    <string name="update">Update</string>
+    <string name="account_name">Account Name</string>
 </resources>

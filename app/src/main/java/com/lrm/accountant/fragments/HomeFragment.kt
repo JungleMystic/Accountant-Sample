@@ -19,6 +19,7 @@ import android.view.animation.AnimationUtils
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -88,7 +89,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
 
         // This will get the data from the Web Api
-        getData()
+        //getData()
 
         // Swipe down to refresh, this will get the data from the Web Api
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -108,6 +109,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         accountsViewModel.accountsDataList.observe(viewLifecycleOwner) {list ->
             // Hide or Show the buttons and textview based on list's value
             if (list.isEmpty()) {
+                getData()
                 binding.apply {
                     noRecordsTv.visibility = View.VISIBLE
                     recyclerView.visibility = View.INVISIBLE
@@ -186,7 +188,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 networkDialog.show()
             } else {
                 networkDialog.dismiss()
-                getData()
+                //getData()
             }
         }
     }
@@ -214,7 +216,16 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     // This function exports the PDF to our App folder
     private fun exportAsPdf() {
         val onError: (Exception) -> Unit = { Toast.makeText(requireContext(), it.message.toString(), Toast.LENGTH_SHORT).show()}
-        val onFinish: (File) -> Unit = { Toast.makeText(requireContext(), "PDF exported successfully", Toast.LENGTH_SHORT).show() }
+        val onFinish: (File) -> Unit = {
+            Log.i(TAG, "exportAsPdf: what is file -> $it")
+            val path = FileProvider.getUriForFile(requireContext(), requireActivity().applicationContext.packageName + ".provider", it)
+            Log.i(TAG, "exportAsPdf: File path -> $path")
+            val pdfOpenIntent = Intent(Intent.ACTION_VIEW)
+            pdfOpenIntent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            pdfOpenIntent.setDataAndType(path, "application/pdf")
+            requireContext().startActivity(pdfOpenIntent)
+            Toast.makeText(requireContext(), "PDF exported successfully", Toast.LENGTH_SHORT).show()
+        }
         val pdfExport = PdfExport()
         pdfExport.createUserTable(accountsViewModel.accountsDataList.value!!.toList(), onFinish, onError)
     }
